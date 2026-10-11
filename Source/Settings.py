@@ -49,15 +49,9 @@ class SettingPage(QtWidgets.QWidget):
         appCombo.addItems(["Light", "Dark", "Auto"])
         appCombo.setCurrentText(settings.AppTheme)
 
-        AppLayout = self.Additional_Widget(
-            "Change the app theme",
-            appCombo
-        )
+        AppLayout = self.Additional_Widget("Change the app theme", appCombo)
 
-        AppCard = self.Create_Card(
-            "Appearance",
-            AppLayout
-        )
+        AppCard = self.Create_Card("Appearance", AppLayout)
 
         Mainlayout.addWidget(Lbl)
         Mainlayout.addWidget(roundingCard)

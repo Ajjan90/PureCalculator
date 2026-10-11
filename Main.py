@@ -311,11 +311,8 @@ class MainWindow(QtWidgets.QMainWindow):
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
     app.setApplicationName(appName)
-<<<<<<< HEAD
     #app.setWindowIcon(QtGui.QIcon("PiMaths.ico"))
     #window.setWindowIcon(QtGui.QIcon("PiMaths.ico"))
-=======
     window = MainWindow()
->>>>>>> UnitsBranch
     window.show()
     app.exec()
