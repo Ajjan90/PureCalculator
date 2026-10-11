@@ -3,7 +3,7 @@ import qtawesome as qta
 import math
 from Source.config import Settings
 
-roundingValue = Settings()
+setValues = Settings()
 
 #to store the calculation into this List
 CalHisList = []
@@ -161,7 +161,7 @@ class StandardCalculator(QtWidgets.QWidget):
         historyLayout.addLayout(historyTopRow)
         historyLayout.addWidget(self.historyList)
 
-        self.historyPanel.hide() #Set the visisblity to hidden
+        self.historyPanel.setVisible(setValues.SidePanelView) #Set the visisblity to hidden
 
         mainLayout.addLayout(layout, 3)
         mainLayout.addWidget(self.historyPanel, 1)
@@ -448,7 +448,7 @@ class StandardCalculator(QtWidgets.QWidget):
         if number == int(number):
             return str(int(number))
 
-        precision = roundingValue.RoundingValue
+        precision = setValues.RoundingValue
         rounded = round(number, precision)
 
         if rounded == 0 and number != 0:

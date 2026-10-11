@@ -25,24 +25,15 @@ class SettingPage(QtWidgets.QWidget):
         roundingInput.setValue(settings.RoundingValue)
         roundingInput.valueChanged.connect(self.ApplyRoundChange)
 
-        roundingContent = self.Additional_Widget(
-            "Provide rounding options",
-            roundingInput
-        )
+        roundingContent = self.Additional_Widget("Provide rounding options", roundingInput)
+        roundingCard = self.Create_Card("Rounding numbers", roundingContent)
 
-        roundingCard = self.Create_Card(
-            "Rounding numbers",
-            roundingContent
-        )
+        # Open/Close Side panel at startup
+        sideCheck = QtWidgets.QCheckBox("Enable")
+        sideCheck.setChecked(settings.SidePanelView)
+        sideCheck.checkStateChanged.connect(self.ApplySidepnlChange)
 
-        # Digit grouping separator
-        digCheck = QtWidgets.QCheckBox("Enable")
-        digCheck.setChecked(settings.DigitGroup)
-
-        digGroCard = self.Create_Card(
-            "Digit-Grouping Separator",
-            digCheck
-        )
+        SidePnlCard = self.Create_Card("Open side panel at startup", sideCheck)
 
         # Appearance
         appCombo = QtWidgets.QComboBox()
@@ -55,13 +46,15 @@ class SettingPage(QtWidgets.QWidget):
 
         Mainlayout.addWidget(Lbl)
         Mainlayout.addWidget(roundingCard)
-        Mainlayout.addWidget(digGroCard)
+        Mainlayout.addWidget(SidePnlCard)
         # Mainlayout.addWidget(AppCard)
         Mainlayout.addStretch()
 
     def ApplyRoundChange(self, value):
         settings.RoundingValue = value
-        
+
+    def ApplySidepnlChange(self, value):
+        settings.SidePanelView = value
 
     def Create_Card(self, title, *items):
         base = QtWidgets.QFrame()

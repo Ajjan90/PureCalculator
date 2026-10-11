@@ -311,8 +311,8 @@ class MainWindow(QtWidgets.QMainWindow):
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
     app.setApplicationName(appName)
-    #app.setWindowIcon(QtGui.QIcon("PiMaths.ico"))
-    #window.setWindowIcon(QtGui.QIcon("PiMaths.ico"))
+    app.setWindowIcon(QtGui.QIcon("PiMaths.ico"))
     window = MainWindow()
+    window.setWindowIcon(QtGui.QIcon("PiMaths.ico"))
     window.show()
     app.exec()
