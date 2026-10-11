@@ -1,6 +1,9 @@
 from PySide6 import QtWidgets, QtCore, QtGui
 import qtawesome as qta
 import math
+from Source.config import Settings
+
+roundingValue = Settings()
 
 #to store the calculation into this List
 CalHisList = []
@@ -299,8 +302,23 @@ class StandardCalculator(QtWidgets.QWidget):
             return
 
         if operation == "%":
-            result = current_number / 100
-            self.CalTxt.setText(self.format_number(result))
+            if self.Num1 is None or self.Operator is None:
+                result = current_number / 100
+                resultText = self.format_number(result)
+
+                self.CalTxt.setText(resultText)
+                self.PercentValue = result
+
+                return
+
+            # Calculate percentage based on Num1
+            self.PercentValue = self.Num1 * (current_number / 100)
+
+            resultText = self.format_number(self.PercentValue)
+
+            self.CalTxt.setText(resultText)
+            self.waiting_for_num2 = False
+
             return
 
         if operation == "1/x":
@@ -424,10 +442,19 @@ class StandardCalculator(QtWidgets.QWidget):
         if operator == "÷":
             return None if num2 == 0 else num1 / num2
         return None
-
+    
     #Format the calculation to make it easier to display on the history panel
     def format_number(self, number):
-        return str(int(number)) if number == int(number) else str(number)
+        if number == int(number):
+            return str(int(number))
+
+        precision = roundingValue.RoundingValue
+        rounded = round(number, precision)
+
+        if rounded == 0 and number != 0:
+            return str(number)
+
+        return f"{rounded:.{precision}f}".rstrip("0").rstrip(".")
 
     #To toggle the history panel when the button is clicked
     def toggle_history_panel(self):

@@ -1,6 +1,7 @@
 from PySide6 import QtWidgets, QtCore, QtGui
 import qtawesome as qta
 from pint import UnitRegistry
+from Source.config import Settings
 
 # Energy units
 energy_measurements = [
@@ -38,6 +39,7 @@ energy_measurements = [
     "Rydbergs",
 ]
 
+roundingValue = Settings()
 
 class EnergyCalculator(QtWidgets.QWidget):
     def __init__(self):
@@ -96,7 +98,7 @@ class EnergyCalculator(QtWidgets.QWidget):
         self.combo1.setFont(comboFont)
         self.combo1.setMinimumHeight(40)
         self.combo1.addItems(energy_measurements)
-        #self.combo1.setCurrentText("Square Meters")
+        self.combo1.setCurrentText("Kilojoules")
         self.combo1.currentTextChanged.connect(self.unit1Changed)
 
         # Swap button
@@ -123,7 +125,7 @@ class EnergyCalculator(QtWidgets.QWidget):
         self.combo2.setFont(comboFont)
         self.combo2.setMinimumHeight(40)
         self.combo2.addItems(energy_measurements)
-        #self.combo2.setCurrentText("Square Feet")
+        self.combo2.setCurrentText("Joules")
         self.combo2.currentTextChanged.connect(self.unit2Changed)
 
         # Unit comparison label
@@ -187,7 +189,7 @@ class EnergyCalculator(QtWidgets.QWidget):
         mainLayout.addWidget(self.unitLbl)
         mainLayout.addWidget(self.buttonGridWidget)
 
-        #self.convertFirst()
+        self.convert(self.inputbox1, self.inputbox2)
         self.updateUnitLabel()
 
     # Convert a unit name into a Pint unit.
@@ -424,13 +426,18 @@ class EnergyCalculator(QtWidgets.QWidget):
         self.updateUnitLabel()
 
     # Format converted numbers without unnecessary zeros.
-    def format_number(self, value):
-        if value != 0 and (abs(value) >= 1e12 or abs(value) < 1e-9):
-            return f"{value:.10g}"
+    def format_number(self, number):
+        if number == int(number):
+            return str(int(number))
 
-        text = f"{value:.10f}".rstrip("0").rstrip(".")
+        precision = roundingValue.RoundingValue
+        rounded = round(number, precision)
 
-        return "0" if text == "-0" else text
+        if rounded == 0 and number != 0:
+            return str(number)
+
+        return f"{rounded:.{precision}f}".rstrip("0").rstrip(".")
+
 
     # Handle keypad number input.
     def number_clicked(self, value):

@@ -1,5 +1,4 @@
 from PySide6 import QtWidgets, QtCore, QtGui
-from PySide6.QtWidgets import QLabel
 import qtawesome as qta
 
 from Source.standard import StandardCalculator
@@ -13,8 +12,18 @@ from Source.currency import CurrencyCalculator
 from Source.date import DateCalculator
 from Source.data import DataCalculator
 from Source.energy import EnergyCalculator
+from Source.length import LengthCalculator
+from Source.mass import MassCalculator
+from Source.power import PowerCalculator
+from Source.speed import SpeedCalculator
+from Source.temp import TempCalculator
+from Source.time import TimeCalculator
+from Source.volume import VolumeCalculator
 
-appName = "Calculator"
+#Other pages
+from Source.Settings import SettingPage
+
+appName = "PureCalculator"
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
@@ -71,28 +80,37 @@ class MainWindow(QtWidgets.QMainWindow):
         self.LenView.setIcon(qta.icon("fa6s.ruler-horizontal"))
         self.LenView.setShortcut("Alt+9")
 
-        self.preView = QtGui.QAction("Pressure", self) #Pressure
-        self.preView.setShortcut("Alt+Shift+1")
+        self.MassView = QtGui.QAction("Mass", self) #Mass
+        self.MassView.setIcon(qta.icon("mdi.weight"))
+        self.MassView.setShortcut("Alt+Shift+1")
 
         self.powView = QtGui.QAction("Power", self) #Power
-        self.powView.setShortcut("Alt+Shift+2") #fa6s.bolt-lightning
+        self.powView.setIcon(qta.icon("fa6s.bolt-lightning"))
+        self.powView.setShortcut("Alt+Shift+2") 
 
         self.speedView = QtGui.QAction("Speed", self) #Speed
-        self.speedView.setShortcut("Alt+Shift+3") #mdi.speedometer-medium
+        self.speedView.setIcon(qta.icon("mdi.car-sports"))
+        self.speedView.setShortcut("Alt+Shift+3")
 
         self.TemView = QtGui.QAction("Temperature", self) #Temperature
+        self.TemView.setIcon(qta.icon("fa5s.temperature-high"))
         self.TemView.setShortcut("Alt+Shift+4")
         
         self.TimeView = QtGui.QAction("Time", self) #Time
+        self.TimeView.setIcon(qta.icon("fa5s.clock"))
         self.TimeView.setShortcut("Alt+Shift+5")
 
         self.VolView = QtGui.QAction("Volume", self) #Volume
+        self.VolView.setIcon(qta.icon("fa5s.cube"))
         self.VolView.setShortcut("Alt+Shift+6")
 
         #Help Menu dropdown and its submenus
         self.HelpMenu = QtWidgets.QMenu("Help", self)
         self.PerMenu = QtGui.QAction("Preferences", self) #Preferences/Settings
+        self.PerMenu.setIcon(qta.icon("ph.gear-six-fill"))
+
         self.AboutMenu = QtGui.QAction("About", self) #About
+        self.AboutMenu.setIcon(qta.icon("mdi.information"))
 
         #Edit menu and its menuitems
         #self.menu_Bar.addMenu(self.EditMenu)
@@ -107,7 +125,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ViewMenu.addAction(action)
 
         self.ViewMenu.addSeparator()
-        view_actions = [self.AreaView, self.CurrView, self.DateView, self.DataView, self.EneView, self.LenView, self.preView, self.powView, self.speedView, self.TemView, self.TimeView, self.VolView]        
+        view_actions = [self.AreaView, self.CurrView, self.DateView, self.DataView, self.EneView, self.LenView, self.MassView, self.powView, self.speedView, self.TemView, self.TimeView, self.VolView]        
         for action in view_actions:
             self.ViewMenu.addAction(action)
             
@@ -131,6 +149,15 @@ class MainWindow(QtWidgets.QMainWindow):
         self.DateView.triggered.connect(self.show_Date)
         self.DataView.triggered.connect(self.show_Data)
         self.EneView.triggered.connect(self.show_Energy)
+        self.LenView.triggered.connect(self.show_Length)
+        self.MassView.triggered.connect(self.show_Mass)
+        self.powView.triggered.connect(self.show_Power)
+        self.speedView.triggered.connect(self.show_Speed)
+        self.TemView.triggered.connect(self.show_Temp)
+        self.TimeView.triggered.connect(self.show_Time)
+        self.VolView.triggered.connect(self.show_Volume)
+
+        self.PerMenu.triggered.connect(self.show_Settings)
 
         # Start with Standard
         self.show_standard()
@@ -216,12 +243,79 @@ class MainWindow(QtWidgets.QMainWindow):
         self.calculators.setCurrentWidget(self.ene_calculator)
         self.adjustSize()
 
+    # Display Length Calculator
+    def show_Length(self):
+        self.ClearCurrentFrame()
+        self.len_calculator = LengthCalculator()
+        self.calculators.addWidget(self.len_calculator)
+        self.calculators.setCurrentWidget(self.len_calculator)
+        self.adjustSize()
+
+    # Display Mass Calculator
+    def show_Mass(self):
+        self.ClearCurrentFrame()
+        self.mass_calculator = MassCalculator()
+        self.calculators.addWidget(self.mass_calculator)
+        self.calculators.setCurrentWidget(self.mass_calculator)
+        self.adjustSize()
+
+    # Display Power Calculator
+    def show_Power(self):
+        self.ClearCurrentFrame()
+        self.power_calculator = PowerCalculator()
+        self.calculators.addWidget(self.power_calculator)
+        self.calculators.setCurrentWidget(self.power_calculator)
+        self.adjustSize()
+
+    # Display Speed Calculator
+    def show_Speed(self):
+        self.ClearCurrentFrame()
+        self.speed_calculator = SpeedCalculator()
+        self.calculators.addWidget(self.speed_calculator)
+        self.calculators.setCurrentWidget(self.speed_calculator)
+        self.adjustSize()
+
+    # Display Temperature Calculator
+    def show_Temp(self):
+        self.ClearCurrentFrame()
+        self.temp_calculator = TempCalculator()
+        self.calculators.addWidget(self.temp_calculator)
+        self.calculators.setCurrentWidget(self.temp_calculator)
+        self.adjustSize()
+
+    # Display Time Calculator
+    def show_Time(self):
+        self.ClearCurrentFrame()
+        self.time_calculator = TimeCalculator()
+        self.calculators.addWidget(self.time_calculator)
+        self.calculators.setCurrentWidget(self.time_calculator)
+        self.adjustSize()
+
+    #Display Volume Calculator
+    def show_Volume(self):
+        self.ClearCurrentFrame()
+        self.vol_calculator = VolumeCalculator()
+        self.calculators.addWidget(self.vol_calculator)
+        self.calculators.setCurrentWidget(self.vol_calculator)
+        self.adjustSize()
+
+    # Display Settings Page
+    def show_Settings(self):
+        self.ClearCurrentFrame()
+        self.sett = SettingPage()
+        self.calculators.addWidget(self.sett)
+        self.calculators.setCurrentWidget(self.sett)
+        self.adjustSize()
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
-    window = MainWindow()
     app.setApplicationName(appName)
+<<<<<<< HEAD
     #app.setWindowIcon(QtGui.QIcon("PiMaths.ico"))
     #window.setWindowIcon(QtGui.QIcon("PiMaths.ico"))
+=======
+    window = MainWindow()
+>>>>>>> UnitsBranch
     window.show()
     app.exec()

@@ -4,6 +4,9 @@ from PySide6 import QtWidgets, QtCore, QtGui
 from PySide6.QtGui import QAction
 import qtawesome as qta
 import math
+from Source.config import Settings
+
+roundingValue = Settings()
 
 CalHisList = [] #to store the calculation into this List
 CalMemList = [] #to store the resulted number into a memory
@@ -138,7 +141,7 @@ class ScientificCalculator(QtWidgets.QWidget):
             for col, text in enumerate(buttonRow):
                 button = QtWidgets.QPushButton()
                 button.setFont(buttonFont)
-                button.setFixedHeight(50)
+                button.setFixedHeight(40)
 
                 if text == "backspace":
                     button.setIcon(qta.icon("fa5s.backspace"))
@@ -597,7 +600,6 @@ class ScientificCalculator(QtWidgets.QWidget):
                 self.CalTxt.setText(self.expression)
                 return
 
-        # NORMAL CALCULATOR MODE
         try:
             current_number = float(current_text)
         except ValueError:
@@ -612,8 +614,23 @@ class ScientificCalculator(QtWidgets.QWidget):
 
         # Percentage
         if operation == "%":
-            result = current_number / 100
-            self.CalTxt.setText(self.format_number(result))
+            if self.Num1 is None or self.Operator is None:
+                result = current_number / 100
+                resultText = self.format_number(result)
+
+                self.CalTxt.setText(resultText)
+                self.PercentValue = result
+
+                return
+
+            # Calculate percentage based on Num1
+            self.PercentValue = self.Num1 * (current_number / 100)
+
+            resultText = self.format_number(self.PercentValue)
+
+            self.CalTxt.setText(resultText)
+            self.waiting_for_num2 = False
+
             return
 
         # RECIPROCAL
@@ -744,7 +761,7 @@ class ScientificCalculator(QtWidgets.QWidget):
                 self.show_error()
             return
 
-       # Modulo / Remainder
+        # Modulo / Remainder
         if operation == "Mod":
             if self.Num1 is None:
                 self.show_error()
@@ -1079,18 +1096,16 @@ class ScientificCalculator(QtWidgets.QWidget):
 
     #Format the calculation to make it easier to display on the history panel
     def format_number(self, number):
-        try:
-            number = float(number)
-
-            if not math.isfinite(number):
-                return "Error"
-
-            if number.is_integer():
-                return str(int(number))
-
+        if number == int(number):
+            return str(int(number))
+    
+        precision = roundingValue.RoundingValue
+        rounded = round(number, precision)
+    
+        if rounded == 0 and number != 0:
             return str(number)
-        except (ValueError, TypeError, OverflowError):
-            return "Error"
+    
+        return f"{rounded:.{precision}f}".rstrip("0").rstrip(".")
 
     #To toggle the history panel when the button is clicked
     def toggle_history_panel(self):

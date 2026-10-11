@@ -4,8 +4,12 @@ import qtawesome as qta
 import requests
 from countryinfo import all_countries
 import socket
+import random
+from Source.config import Settings
+
 
 countries = all_countries()
+roundingValue = Settings()
 
 class CurrencyCalculator(QtWidgets.QWidget):
     def __init__(self):
@@ -108,6 +112,9 @@ class CurrencyCalculator(QtWidgets.QWidget):
                 formatComboItem = f"{country.name()} ({currencies[0]})"
                 self.combo1.addItem(formatComboItem)
                 self.combo2.addItem(formatComboItem)
+
+        self.combo1.setCurrentIndex(random.randrange(self.combo1.count()))
+        self.combo2.setCurrentIndex(random.randrange(self.combo2.count()))
 
         # Display the current exchange rate
         self.unitLbl = QtWidgets.QLabel()
@@ -322,16 +329,18 @@ class CurrencyCalculator(QtWidgets.QWidget):
         return super().eventFilter(obj, event)
 
     # Format numbers without unnecessary zeros
-    def format_number(self, value):
-        if value != 0 and (abs(value) >= 1e12 or abs(value) < 1e-9):
-            return f"{value:.10g}"
+    def format_number(self, number):
+        if number == int(number):
+            return str(int(number))
 
-        text = f"{value:.10f}".rstrip("0").rstrip(".")
+        precision = roundingValue.RoundingValue
+        rounded = round(number, precision)
 
-        if text == "-0":
-            text = "0"
+        if rounded == 0 and number != 0:
+            return str(number)
 
-        return text
+        return f"{rounded:.{precision}f}".rstrip("0").rstrip(".")
+
 
     def number_clicked(self, value):
         line_edit = self.currentInput
@@ -478,5 +487,4 @@ class CurrencyCalculator(QtWidgets.QWidget):
     def closeEvent(self, event):
         if hasattr(self, "networkTimer"):
             self.networkTimer.stop()
-
         event.accept()
