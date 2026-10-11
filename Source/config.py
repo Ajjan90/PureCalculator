@@ -22,9 +22,9 @@ class Settings:
         self.settings.setValue("Side Panel View", value)
 
     @property
-    def AppTheme(self):
-        return self.settings.value("AppTheme", "Auto", type=str)
+    def DefaultCal(self):
+        return self.settings.value("Default Calculator", "Standard", type=str)
 
-    @AppTheme.setter
-    def AppTheme(self, value):
-        self.settings.setValue("AppTheme", value)
+    @DefaultCal.setter
+    def DefaultCal(self, value):
+        self.settings.setValue("Default Calculator", value)

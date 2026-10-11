@@ -23,6 +23,9 @@ from Source.volume import VolumeCalculator
 #Other pages
 from Source.Settings import SettingPage
 
+from Source.config import Settings
+setValues = Settings()
+
 appName = "PureCalculator"
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -159,8 +162,13 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.PerMenu.triggered.connect(self.show_Settings)
 
-        # Start with Standard
-        self.show_standard()
+        # Start with the selected calculator
+        if setValues.DefaultCal == "Standard":
+            self.show_standard()
+        elif setValues.DefaultCal == "Scientific":
+            self.show_scientific()
+        elif setValues.DefaultCal == "Paper Mode":
+            self.show_paper()
 
     def ClearCurrentFrame(self):
         current = self.calculators.currentWidget()

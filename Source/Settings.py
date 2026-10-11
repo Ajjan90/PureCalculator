@@ -35,19 +35,20 @@ class SettingPage(QtWidgets.QWidget):
 
         SidePnlCard = self.Create_Card("Open side panel at startup", sideCheck)
 
-        # Appearance
-        appCombo = QtWidgets.QComboBox()
-        appCombo.addItems(["Light", "Dark", "Auto"])
-        appCombo.setCurrentText(settings.AppTheme)
+        # Startup calculators
+        CalCombo = QtWidgets.QComboBox()
+        CalCombo.addItems(["Standard", "Scientific", "Paper Mode"])
+        CalCombo.setCurrentText(settings.DefaultCal)
+        CalCombo.currentTextChanged.connect(self.ApplyCalChange)
 
-        AppLayout = self.Additional_Widget("Change the app theme", appCombo)
+        calLayout = self.Additional_Widget("Select the default calculator", CalCombo)
 
-        AppCard = self.Create_Card("Appearance", AppLayout)
+        CalCard = self.Create_Card("Appearance", calLayout)
 
         Mainlayout.addWidget(Lbl)
         Mainlayout.addWidget(roundingCard)
         Mainlayout.addWidget(SidePnlCard)
-        # Mainlayout.addWidget(AppCard)
+        Mainlayout.addWidget(CalCard)
         Mainlayout.addStretch()
 
     def ApplyRoundChange(self, value):
@@ -55,6 +56,9 @@ class SettingPage(QtWidgets.QWidget):
 
     def ApplySidepnlChange(self, value):
         settings.SidePanelView = value
+
+    def ApplyCalChange(self, value):
+        settings.DefaultCal = value
 
     def Create_Card(self, title, *items):
         base = QtWidgets.QFrame()
