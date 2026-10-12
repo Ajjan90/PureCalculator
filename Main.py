@@ -20,8 +20,9 @@ from Source.temp import TempCalculator
 from Source.time import TimeCalculator
 from Source.volume import VolumeCalculator
 
-#Other pages
+#Other pages and window
 from Source.Settings import SettingPage
+from Window.about import AboutDialog
 
 from Source.config import Settings
 setValues = Settings()
@@ -161,6 +162,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.VolView.triggered.connect(self.show_Volume)
 
         self.PerMenu.triggered.connect(self.show_Settings)
+        self.AboutMenu.triggered.connect(self.show_About)
 
         # Start with the selected calculator
         if setValues.DefaultCal == "Standard":
@@ -315,12 +317,16 @@ class MainWindow(QtWidgets.QMainWindow):
         self.calculators.setCurrentWidget(self.sett)
         self.adjustSize()
 
+    # Display About Window
+    def show_About(self):
+        self.about = AboutDialog()
+        self.about.show()
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
     app.setApplicationName(appName)
-    app.setWindowIcon(QtGui.QIcon("PiMaths.ico"))
+    #app.setWindowIcon(QtGui.QIcon("PiMaths.ico"))
     window = MainWindow()
-    window.setWindowIcon(QtGui.QIcon("PiMaths.ico"))
+    #window.setWindowIcon(QtGui.QIcon("PiMaths.ico"))
     window.show()
     app.exec()
