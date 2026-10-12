@@ -34,11 +34,12 @@
 | <img src="https://github.com/Ajjan90/PiMaths/blob/main/img/Cal/EneCal.png" />  | Energy Convertor      | Perform energy conversions measurements from joules, kilojoules and many more energy units. |
 | <img src="https://github.com/Ajjan90/PiMaths/blob/main/img/Cal/LenCal.png" />  | Length Convertor      | Perform length conversions measurements from centimetres, millimetres, feet, inches and many more length units.  |
 | <img src="https://github.com/Ajjan90/PiMaths/blob/main/img/Cal/MassCal.png" />  | Mass Convertor        | Perform mass conversions measurements from grams, kilograms, pounds and more.  |
-| N/A  | Power Convertor       | N/A  |
-| N/A  | Speed Convertor       | N/A  |
-| N/A  | Temperature Convertor | N/A  |
-| N/A  | Time Calculator       | N/A  |
-| N/A  | Volume Convertor      | N/A  |
+| <img src="https://github.com/Ajjan90/PureCalculator/blob/main/img/Cal/PowerCal.png"/>  | Power Convertor       | Perform power conversions measurements from watts, kilowatts, BTU (both US and UK units) and more. |
+| <img src="https://github.com/Ajjan90/PureCalculator/blob/main/img/Cal/SpeedCal.png" /> | Speed Convertor       | Perform speed conversion measurements from miles, meters, kilometers and more.  |
+| <img src="https://github.com/Ajjan90/PureCalculator/blob/main/img/Cal/TempCal.png" />  | Temperature Convertor | Perform temperature conversions from imperial to metric (Fahrenheit to Celsius) and Kelvin. |
+| <img src="https://github.com/Ajjan90/PureCalculator/blob/main/img/Cal/TimeCal.png" />  | Time Calculator       | Perform time calculations by either caluclating the difference, add/subtracting time and time conversions from seconds, minutes, hours, days and more.  |
+| <img src="https://github.com/Ajjan90/PureCalculator/blob/main/img/Cal/VolCal.png" />  | Volume Convertor      | Perform Volume measurement conversions from litres, millilitres, ounces and more. |
+<h5>All of these screenshots where taken from Zorin OS</h5>
 
 <h1>Features</h1>
 
