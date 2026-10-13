@@ -43,7 +43,7 @@ class SettingPage(QtWidgets.QWidget):
 
         calLayout = self.Additional_Widget("Select the default calculator", CalCombo)
 
-        CalCard = self.Create_Card("Appearance", calLayout)
+        CalCard = self.Create_Card("Default Calculator", calLayout)
 
         Mainlayout.addWidget(Lbl)
         Mainlayout.addWidget(roundingCard)

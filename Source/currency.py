@@ -4,12 +4,40 @@ import qtawesome as qta
 import requests
 from countryinfo import all_countries
 import socket
-import random
+from functools import lru_cache
 from Source.config import Settings
 
-
 countries = all_countries()
+formatComboItem = []
 roundingValue = Settings()
+
+# ISO codes of countries you want to exclude if they are territories
+excluded = {
+    "Åland Islands", "American Samoa", "Anguilla",
+    "Aruba", "Bermuda", "British Indian Ocean Territory",
+    "Cayman Islands", "Christmas Island", "Cocos (Keeling) Islands",
+    "Cook Islands", "Falkland Islands", "Faroe Islands",
+    "French Guiana", "French Polynesia", "Gibraltar",
+    "Greenland", "Guadeloupe", "Guam", "Guernsey",
+    "Hong Kong", "Isle of Man", "Jersey", "Macao",
+    "Martinique", "Mayotte", "Montserrat", "New Caledonia",
+    "Niue", "Norfolk Island", "Northern Mariana Islands",
+    "Pitcairn Islands", "Puerto Rico", "Réunion",
+    "Saint Helena", "Saint Pierre and Miquelon",
+    "Sint Maarten", "Tokelau", "Turks and Caicos Islands",
+    "U.S. Virgin Islands", "Wallis and Futuna",
+    "Western Sahara", "Vatican City State", "Scotland", "Wales"
+}
+
+@lru_cache(maxsize=128)
+def get_exchange_rate(from_currency, to_currency):
+    url = (f"https://api.frankfurter.dev/v2/rate/"  
+           f"{from_currency}/{to_currency}")
+
+    response = requests.get(url, timeout=5)
+    response.raise_for_status()
+
+    return float(response.json()["rate"])
 
 class CurrencyCalculator(QtWidgets.QWidget):
     def __init__(self):
@@ -106,15 +134,23 @@ class CurrencyCalculator(QtWidgets.QWidget):
         self.combo2.currentTextChanged.connect(lambda text: self.getCurrency(text, "to"))
         self.combo2.currentTextChanged.connect(self.convertCurrencies)
 
+        # Clear the comboboxes to prevent conflicts
+        self.combo1.clear()
+        self.combo2.clear()
+
+        # Using the for loop to add the countries and its currencies into formatComboItem
         for country in countries:
             currencies = country.currencies()
-            if currencies:
-                formatComboItem = f"{country.name()} ({currencies[0]})"
-                self.combo1.addItem(formatComboItem)
-                self.combo2.addItem(formatComboItem)
+            if currencies and country.name() not in excluded:
+                formatComboItem.append(f"{country.name()} ({currencies[0]})")
 
-        self.combo1.setCurrentIndex(random.randrange(self.combo1.count()))
-        self.combo2.setCurrentIndex(random.randrange(self.combo2.count()))
+        # Add the countries and their currencies into the comboboxes by adding
+        # the formatComboItem which contains the contents
+        self.combo1.addItems(formatComboItem)
+        self.combo2.addItems(formatComboItem)
+
+        self.combo1.setCurrentIndex(170) # Auto select the United State
+        self.combo2.setCurrentIndex(67) # AUto select India
 
         # Display the current exchange rate
         self.unitLbl = QtWidgets.QLabel()
@@ -193,7 +229,6 @@ class CurrencyCalculator(QtWidgets.QWidget):
         self.networkTimer.start(3000)
 
         self.Checknetwork()
-
         QtCore.QTimer.singleShot(0, self.convertCurrencies)
 
     # Get the currency code from the combo box
@@ -233,13 +268,9 @@ class CurrencyCalculator(QtWidgets.QWidget):
             self.inputbox2.setText(self.format_number(amount))
             return
 
-        url = f"https://api.frankfurter.dev/v2/rate/{self.fromCurrency}/{self.toCurrency}"
-
         try:
-            response = requests.get(url, timeout=5)
-            response.raise_for_status()
-            data = response.json()
-            convertedAmount = amount * data["rate"]
+            rate = get_exchange_rate(self.fromCurrency, self.toCurrency)
+            convertedAmount = amount * rate
             self.inputbox2.setText(self.format_number(convertedAmount))
         except requests.RequestException as error:
             print("API error:", error)
@@ -390,7 +421,7 @@ class CurrencyCalculator(QtWidgets.QWidget):
             return
 
     # Update the displayed exchange rate
-    def updateUnitLabel(self):
+    def updateUnitLabel(self, rate=None):
         if not self.fromCurrency or not self.toCurrency:
             self.unitLbl.clear()
             return
@@ -403,14 +434,11 @@ class CurrencyCalculator(QtWidgets.QWidget):
             self.unitLbl.setText(f"1 {self.fromCurrency} = 1 {self.toCurrency}")
             return
 
-        url = f"https://api.frankfurter.dev/v2/rate/{self.fromCurrency}/{self.toCurrency}"
-
         try:
-            response = requests.get(url, timeout=5)
-            response.raise_for_status()
-            data = response.json()
-            rate = data["rate"]
-            self.unitLbl.setText(f"1 {self.fromCurrency} = {rate:.4f} {self.toCurrency}")
+            # Reuse the supplied rate or retrieve it from the cache.
+            rate = get_exchange_rate(self.fromCurrency, self.toCurrency)
+
+            self.unitLbl.setText(f"1 {self.fromCurrency} = {rate} {self.toCurrency}")
         except requests.RequestException as error:
             print("API error:", error)
             self.unitLbl.clear()
