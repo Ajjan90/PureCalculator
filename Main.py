@@ -6,7 +6,7 @@ from Source.scientific import ScientificCalculator
 from Source.average import AverageCalculator
 from Source.paper import PaperCalculator
 
-#Unit Conversions
+# Unit Conversions
 from Source.area import AreaCalculator
 from Source.currency import CurrencyCalculator
 from Source.date import DateCalculator
@@ -20,13 +20,15 @@ from Source.temp import TempCalculator
 from Source.time import TimeCalculator
 from Source.volume import VolumeCalculator
 
-#Other pages and window
+# Other pages and window
 from Source.Settings import SettingPage
 from Window.about import AboutDialog
 
+# The settings configurations call
 from Source.config import Settings
 setValues = Settings()
 
+# The application name
 appName = "PureCalculator"
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -165,6 +167,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.AboutMenu.triggered.connect(self.show_About)
 
         # Start with the selected calculator
+        # This is determined based on the options that was selected on the setting
         if setValues.DefaultCal == "Standard":
             self.show_standard()
         elif setValues.DefaultCal == "Scientific":
@@ -172,10 +175,13 @@ class MainWindow(QtWidgets.QMainWindow):
         elif setValues.DefaultCal == "Paper Mode":
             self.show_paper()
 
+    # This function will clear/remove the current widget
+    # on the calculator main content
     def ClearCurrentFrame(self):
-        current = self.calculators.currentWidget()
+        current = self.calculators.currentWidget() # get the current frame 
 
         if current is not None:
+            # Remove and delete the widget that was found
             self.calculators.removeWidget(current)
             current.deleteLater()
 
