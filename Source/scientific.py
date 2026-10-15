@@ -1051,7 +1051,6 @@ class ScientificCalculator(QtWidgets.QWidget):
 
         try:
             result = self.evaluate_expression(expression)
-
         except Exception:
             self.CalTxt.setText("Error")
             self.expression = ""

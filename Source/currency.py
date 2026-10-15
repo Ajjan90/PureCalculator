@@ -80,9 +80,9 @@ class CurrencyCalculator(QtWidgets.QWidget):
         self.toggleShrtcut = QtGui.QShortcut(QtGui.QKeySequence("Ctrl+I"), self)
         self.toggleShrtcut.activated.connect(self.toggleBtn.toggle)
 
-        self.infoBtn = QtWidgets.QPushButton()
-        self.infoBtn.setIcon(qta.icon("fa6s.info"))
-        self.updateNetworkTooltip()
+        #self.infoBtn = QtWidgets.QPushButton()
+        #self.infoBtn.setIcon(qta.icon("fa6s.info"))
+        #self.updateNetworkTooltip()
 
         validator = QtGui.QRegularExpressionValidator(QtCore.QRegularExpression(r"\d*\.?\d*"))
 
@@ -149,14 +149,15 @@ class CurrencyCalculator(QtWidgets.QWidget):
         self.combo1.addItems(formatComboItem)
         self.combo2.addItems(formatComboItem)
 
-        self.combo1.setCurrentIndex(170) # Auto select the United State
-        self.combo2.setCurrentIndex(67) # AUto select India
+        self.combo1.setCurrentIndex(193) # Auto select the United State
+        self.combo2.setCurrentIndex(79) # AUto select India
 
         # Display the current exchange rate
         self.unitLbl = QtWidgets.QLabel()
         self.unitLbl.setFont(QtGui.QFont("Arial", 12))
         self.unitLbl.setStyleSheet("color: gray;")
         self.updateUnitLabel()
+        
         self.combo1.currentTextChanged.connect(self.updateUnitLabel)
         self.combo2.currentTextChanged.connect(self.updateUnitLabel)
 
@@ -198,7 +199,7 @@ class CurrencyCalculator(QtWidgets.QWidget):
         TopRow.addWidget(self.Lbl)
         TopRow.addStretch()
         TopRow.addWidget(self.toggleBtn)
-        TopRow.addWidget(self.infoBtn)
+        #TopRow.addWidget(self.infoBtn)
 
         MainLayout.addLayout(TopRow)
         MainLayout.addWidget(self.inputbox1)
@@ -476,7 +477,7 @@ class CurrencyCalculator(QtWidgets.QWidget):
             self.combo2.setEnabled(True)
 
             self.networkWarningShown = False
-            self.updateNetworkTooltip()
+            #self.updateNetworkTooltip()
 
             if wasDisconnected:
                 self.updateUnitLabel()
@@ -504,15 +505,14 @@ class CurrencyCalculator(QtWidgets.QWidget):
 
             return False
 
-    def updateNetworkTooltip(self):
-        if self.networkStatus:
-            status = '<span style="color: green;">Connected</span>'
-        else:
-            status = '<span style="color: red;">Disconnected</span>'
+    #def updateNetworkTooltip(self):
+    #    if self.networkStatus:
+    #        status = '<span style="color: green;">Connected</span>'
+    #    else:
+    #        status = '<span style="color: red;">Disconnected</span>'
+    #    self.infoBtn.setToolTip(f"For up to date rates, ensure you h#ave an internet connection.<br>Network connection: {status}")
 
-        self.infoBtn.setToolTip(f"For up to date rates, ensure you have an internet connection.<br>Network connection: {status}")
-
-    def closeEvent(self, event):
-        if hasattr(self, "networkTimer"):
-            self.networkTimer.stop()
-        event.accept()
+    #def closeEvent(self, event):
+    #    if hasattr(self, "networkTimer"):
+    #        self.networkTimer.stop()
+    #    event.accept()
