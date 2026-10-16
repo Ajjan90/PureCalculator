@@ -484,7 +484,6 @@ class CurrencyCalculator(QtWidgets.QWidget):
                 self.convertCurrencies()
 
             return True
-
         except OSError:
             wasConnected = self.networkStatus
             self.networkStatus = False
