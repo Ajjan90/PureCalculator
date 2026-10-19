@@ -6,7 +6,7 @@ import qtawesome as qta
 import math
 from Source.config import Settings
 
-roundingValue = Settings()
+SetValues = Settings()
 
 CalHisList = [] #to store the calculation into this List
 CalMemList = [] #to store the resulted number into a memory
@@ -340,7 +340,7 @@ class ScientificCalculator(QtWidgets.QWidget):
         historyPanelLayout.addWidget(self.tabControl)
 
         # Initially hide History panel
-        self.SidePanel.hide()
+        self.SidePanel.setVisible(SetValues.SidePanelView)
 
         # Add calculator + history panel to main layout
         mainLayout.addLayout(layout, 3)
@@ -1051,7 +1051,6 @@ class ScientificCalculator(QtWidgets.QWidget):
 
         try:
             result = self.evaluate_expression(expression)
-
         except Exception:
             self.CalTxt.setText("Error")
             self.expression = ""
@@ -1099,7 +1098,7 @@ class ScientificCalculator(QtWidgets.QWidget):
         if number == int(number):
             return str(int(number))
     
-        precision = roundingValue.RoundingValue
+        precision = SetValues.RoundingValue
         rounded = round(number, precision)
     
         if rounded == 0 and number != 0:

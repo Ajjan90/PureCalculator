@@ -356,12 +356,17 @@ class AreaCalculator(QtWidgets.QWidget):
         self.updateUnitLabel()
 
     # Format converted numbers without unnecessary zeros.
-    def format_number(self, value):
-        if value != 0 and (abs(value) >= 1e12 or abs(value) < 1e-9):
-            return f"{value:.10g}"
+    def format_number(self, number):
+        if number == int(number):
+            return str(int(number))
 
-        text = f"{round(value, roundingValue.RoundingValue)}".rstrip("0").rstrip(".")
-        return "0" if text == "-0" else text
+        precision = roundingValue.RoundingValue
+        rounded = round(number, precision)
+
+        if rounded == 0 and number != 0:
+            return str(number)
+
+        return f"{rounded:.{precision}f}".rstrip("0").rstrip(".")
 
     # Handle keypad number input.
     def number_clicked(self, value):

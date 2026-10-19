@@ -49,5 +49,5 @@
 | Memory | In the Scientific calculator, you can store the current calculated value in **Memory**, which can later be recalled, added to, subtracted from, or cleared completely. You can access the Memory list by clicking the **View List** button on the top right and navigating to the **Memory** tab. |
 
 <h1>Documentation</h1>
-<p> If you want to initialize PureCalculator or want to modify it for your own purpose, use the documentation provided to clone and run PureCalculator on your system </p>
+<p> If you want to initialize PureCalculator or modify it for your own purposes, refer to the <a href="https://github.com/Ajjan90/PureCalculator/blob/main/README.md">documentation</a> for instructions on how to clone and run PureCalculator on your system. </p>
 

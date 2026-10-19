@@ -5,10 +5,12 @@ import ast
 import math
 import operator
 import re
+from Source.config import Settings
 
 from Window.helpWin import HelpWindow
 
 CalList = []
+roundingValue = Settings()
 
 class PaperCalculator(QtWidgets.QWidget):
     def __init__(self):
@@ -166,7 +168,7 @@ class PaperCalculator(QtWidgets.QWidget):
             if result.is_integer():
                 return str(int(result))
 
-            return f"{result:.12g}"
+            return f"{round(result, roundingValue.RoundingValue)}"
         return str(result)
 
     # Show error
@@ -212,35 +214,46 @@ class PaperCalculator(QtWidgets.QWidget):
         
     #This is a keypress class, when the user uses the up and down arrows it should retrive the previous calculations without needing to retype it again
     #Bringing a similar functionality from the Terminal
-    def keyPressEvent(self, event):
-        expression = []
+    def eventFilter(self, obj, event):
+        if obj == self.inputBox and event.type() == QtCore.QEvent.Type.KeyPress:
 
-        #Split the current saved calculations on the CalList by splitting them based on the = sign 
-        for item in CalList:
-            parts = item.split("=", 1)
-            calculate = parts[0].strip()
-            expression.insert(0, calculate)
+            # Get the saved expressions in chronological order
+            expressions = [
+                item.rsplit("=", 1)[0].strip()
+                for item in CalList
+            ]
 
-        if event.key() == QtCore.Qt.Key.Key_Up:
-            if expression:
-                self.expressionIndex += 1
+            if event.key() == QtCore.Qt.Key.Key_Up:
+                if expressions:
+                    # Move backwards through the history
+                    if self.expressionIndex < len(expressions):
+                        self.expressionIndex += 1
 
-                # Don't go before the first item
-                if self.expressionIndex < 0:
-                    self.expressionIndex = 0
+                    index = len(expressions) - self.expressionIndex
+                    self.inputBox.setText(expressions[index])
+                    self.inputBox.setCursorPosition(
+                        len(self.inputBox.text())
+                    )
 
-                self.inputBox.setText(expression[self.expressionIndex])
-        elif event.key() == QtCore.Qt.Key.Key_Down:
-            if expression:
-                self.expressionIndex -= 1
+                return True
 
-                # Don't go past the last item
-                if self.expressionIndex >= len(expression):
-                    self.expressionIndex = len(expression) - 1
+            elif event.key() == QtCore.Qt.Key.Key_Down:
+                if expressions:
+                    if self.expressionIndex > 0:
+                        self.expressionIndex -= 1
 
-                self.inputBox.setText(expression[self.expressionIndex])
-        else:
-            super().keyPressEvent(event)
+                    if self.expressionIndex == 0:
+                        self.inputBox.clear()
+                    else:
+                        index = len(expressions) - self.expressionIndex
+                        self.inputBox.setText(expressions[index])
+                        self.inputBox.setCursorPosition(
+                            len(self.inputBox.text())
+                        )
+
+                return True
+
+        return super().eventFilter(obj, event)
 
 #A class that teaches the paper mode calculator what to do and how to calculate an expression, provide error handling messages and more.
 class SafeCalculator:

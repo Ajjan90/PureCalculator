@@ -25,43 +25,40 @@ class SettingPage(QtWidgets.QWidget):
         roundingInput.setValue(settings.RoundingValue)
         roundingInput.valueChanged.connect(self.ApplyRoundChange)
 
-        roundingContent = self.Additional_Widget(
-            "Provide rounding options",
-            roundingInput
-        )
+        roundingContent = self.Additional_Widget("Provide rounding options", roundingInput)
+        roundingCard = self.Create_Card("Rounding numbers", roundingContent)
 
-        roundingCard = self.Create_Card(
-            "Rounding numbers",
-            roundingContent
-        )
+        # Open/Close Side panel at startup
+        sideCheck = QtWidgets.QCheckBox("Enable")
+        sideCheck.setChecked(settings.SidePanelView)
+        sideCheck.checkStateChanged.connect(self.ApplySidepnlChange)
 
-        # Digit grouping separator
-        digCheck = QtWidgets.QCheckBox("Enable")
-        digCheck.setChecked(settings.DigitGroup)
+        SidePnlCard = self.Create_Card("Open side panel at startup", sideCheck)
 
-        digGroCard = self.Create_Card(
-            "Digit-Grouping Separator",
-            digCheck
-        )
+        # Startup calculators
+        CalCombo = QtWidgets.QComboBox()
+        CalCombo.addItems(["Standard", "Scientific", "Paper Mode"])
+        CalCombo.setCurrentText(settings.DefaultCal)
+        CalCombo.currentTextChanged.connect(self.ApplyCalChange)
 
-        # Appearance
-        appCombo = QtWidgets.QComboBox()
-        appCombo.addItems(["Light", "Dark", "Auto"])
-        appCombo.setCurrentText(settings.AppTheme)
+        calLayout = self.Additional_Widget("Select the default calculator", CalCombo)
 
-        AppLayout = self.Additional_Widget("Change the app theme", appCombo)
-
-        AppCard = self.Create_Card("Appearance", AppLayout)
+        CalCard = self.Create_Card("Default Calculator", calLayout)
 
         Mainlayout.addWidget(Lbl)
         Mainlayout.addWidget(roundingCard)
-        Mainlayout.addWidget(digGroCard)
-        # Mainlayout.addWidget(AppCard)
+        Mainlayout.addWidget(SidePnlCard)
+        Mainlayout.addWidget(CalCard)
         Mainlayout.addStretch()
 
     def ApplyRoundChange(self, value):
         settings.RoundingValue = value
-        
+
+    def ApplySidepnlChange(self, value):
+        settings.SidePanelView = value
+
+    def ApplyCalChange(self, value):
+        settings.DefaultCal = value
 
     def Create_Card(self, title, *items):
         base = QtWidgets.QFrame()

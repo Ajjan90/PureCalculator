@@ -4,7 +4,7 @@ import statistics as Stat
 from Source.config import Settings
 
 NumList = [] #to store the calculation into this List
-roundingValue = Settings()
+SetValues = Settings()
 
 class AverageCalculator(QtWidgets.QWidget):
     def __init__(self):
@@ -214,7 +214,7 @@ class AverageCalculator(QtWidgets.QWidget):
         historyLayout.addWidget(self.valCount)
         historyLayout.addWidget(self.historyList)
 
-        self.historyPanel.hide()
+        self.historyPanel.setVisible(SetValues.SidePanelView)
 
         mainLayout.addLayout(layout, 3)
         mainLayout.addWidget(self.historyPanel, 1)
@@ -394,7 +394,7 @@ class AverageCalculator(QtWidgets.QWidget):
         if number == int(number):
             return str(int(number))
 
-        precision = roundingValue.RoundingValue
+        precision = SetValues.RoundingValue
         rounded = round(number, precision)
 
         if rounded == 0 and number != 0:

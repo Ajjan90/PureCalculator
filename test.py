@@ -1,44 +1,37 @@
-import sys
-from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QDateTimeEdit
-from PySide6.QtCore import QDateTime
-#from countryinfo import CountryInfo
-from datetime import date
-from dateutil.relativedelta import relativedelta
+from countryinfo import all_countries
 
+countries = all_countries()
+country_currencies = {}
 
-#app = QApplication(sys.argv)
+# ISO codes of countries you want to exclude if they are territories
+excluded = {
+    "Åland Islands", "American Samoa", "Anguilla",
+    "Aruba", "Bermuda", "British Indian Ocean Territory",
+    "Cayman Islands", "Christmas Island", "Cocos (Keeling) Islands",
+    "Cook Islands", "Falkland Islands", "Faroe Islands",
+    "French Guiana", "French Polynesia", "Gibraltar",
+    "Greenland", "Guadeloupe", "Guam", "Guernsey",
+    "Hong Kong", "Isle of Man", "Jersey", "Macao",
+    "Martinique", "Mayotte", "Montserrat", "New Caledonia",
+    "Niue", "Norfolk Island", "Northern Mariana Islands",
+    "Pitcairn Islands", "Puerto Rico", "Réunion",
+    "Saint Helena", "Saint Pierre and Miquelon",
+    "Sint Maarten", "Tokelau", "Turks and Caicos Islands",
+    "U.S. Virgin Islands", "Wallis and Futuna",
+    "Western Sahara", "Austria", "Belgium", "Bulgaria", "Croatia",
+    "Cyprus", "Estonia", "Finland", "France", "Germany", "Greece",
+    "Ireland", "Itlay", "Lativa", "Lithuania", "Luxembourg", "Malta",
+    "Netherlands", "Portugal", "Slovakia", "Slovenia", "Spain", "Andorra",
+    "Monaco", "Vatican City State", "Holy See (Vatican City State)", "Kosovo",
+    "Montenegro"
+}
 
-#window = QWidget()
-#layout = QVBoxLayout(window)
+for country in countries:
+    name = country.name()
+    currencies = country.currencies()
 
-#datetime_picker = QDateTimeEdit()
-#datetime_picker.setDateTime(QDateTime.currentDateTime())
-#datetime_picker.setCalendarPopup(True)
-#datetime_picker.setDisplayFormat("dd/MM/yyyy")
+    if currencies and name not in excluded:
+        country_currencies[name] = currencies[0]
 
-#layout.addWidget(datetime_picker)
-
-#window.show()
-#sys.exit(app.exec())
-
-
-
-
-#def convert(value, from_unit, to_unit):
-#    return (value * ureg(from_unit)).to(to_unit)
-
-start = date(2020, 6, 5)
-end = date(2026, 9, 13)
-
-result = end - start
-
-total_days = result.days
-weeks = total_days // 7
-days = total_days % 7
-
-difference = relativedelta(end, start)
-
-print(f"Days: {total_days}")
-print(f"Weeks: {weeks} weeks, {days} days")
-print(f"Months: {difference.months} months, {difference.days} days")
-print(f"Years: {difference.years} years, {difference.months} months, {difference.days} days")
+for country, currency in sorted(country_currencies.items()):
+    print(f"{country}: {currency}")
