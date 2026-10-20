@@ -51,3 +51,5 @@
 <h1>Documentation</h1>
 <p> If you want to initialize PureCalculator or modify it for your own purposes, refer to the <a href="https://github.com/Ajjan90/PureCalculator/blob/main/document/README.md">documentation</a> for instructions on how to clone and run PureCalculator on your system. </p>
 
+<h1>License</h1>
+<p>View the <a href="https://github.com/Ajjan90/PureCalculator/blob/main/LICENSE" >license</a> of this project here</p>
