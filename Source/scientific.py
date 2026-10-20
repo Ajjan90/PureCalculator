@@ -224,6 +224,8 @@ class ScientificCalculator(QtWidgets.QWidget):
         self.historyList = QtWidgets.QListWidget()
         self.historyList.setFont(QtGui.QFont("Arial", 11))
         self.historyList.itemDoubleClicked.connect(self.get_cal_item) # Double-click history item
+        # Populate the history list with previous calculated items
+        self.UpdateHistoryList()
 
         # Context menu
         self.historyList.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
@@ -272,6 +274,8 @@ class ScientificCalculator(QtWidgets.QWidget):
         self.MemList.itemDoubleClicked.connect(self.get_Mem_Item)
         self.MemList.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
         self.MemList.customContextMenuRequested.connect(self.showMemoryContextmenu)
+        # Populate the memory list with previous saved memory 
+        self.UpdateMemList()
 
         #Memory Add Action Menu
         self.AddMemAction = QtGui.QAction("Memory Add", self)

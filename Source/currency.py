@@ -402,7 +402,7 @@ class CurrencyCalculator(QtWidgets.QWidget):
         if lineEdit is None:
             lineEdit = self.inputbox1
             self.currentInput = lineEdit
-
+        
         if value == "backspace":
             current = lineEdit.text()
 
@@ -416,7 +416,7 @@ class CurrencyCalculator(QtWidgets.QWidget):
                 lineEdit.setText("0")
 
             return
-
+        
         if value == "CE":
             lineEdit.setText("0")
             return

@@ -16,6 +16,7 @@ class StandardCalculator(QtWidgets.QWidget):
         self.Operator = None
         self.Num2 = None
         self.waiting_for_num2 = False
+        #CalHisList.clear()
 
         mainLayout = QtWidgets.QHBoxLayout(self) #This will hold the Main content layout and the History layout
         layout = QtWidgets.QVBoxLayout() #The layout for the Main Content
@@ -141,6 +142,8 @@ class StandardCalculator(QtWidgets.QWidget):
         #Set up the contextmenu
         self.historyList.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
         self.historyList.customContextMenuRequested.connect(self.show_history_context_menu)
+        #Populate the history list with previous items
+        self.UpdateHistoryList()
 
         #Contextmenu Item 1: Copy
         self.copyAction = QtGui.QAction("Copy", self)
