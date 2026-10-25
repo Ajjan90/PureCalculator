@@ -131,9 +131,7 @@ class HelpWindow(QtWidgets.QMainWindow):
         )
 
         example.setObjectName("example")
-        example.setTextFormat(
-            QtCore.Qt.TextFormat.RichText
-        )
+        example.setTextFormat(QtCore.Qt.TextFormat.RichText)
 
         paperLayout.addWidget(example)
 

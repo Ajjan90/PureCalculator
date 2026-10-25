@@ -56,7 +56,7 @@ class TempCalculator(QtWidgets.QWidget):
         )
 
         # First input
-        self.inputbox1 = QtWidgets.QLineEdit("1")
+        self.inputbox1 = QtWidgets.QLineEdit("0")
         self.inputbox1.setFixedHeight(55)
         self.inputbox1.setFont(inputFont)
         self.inputbox1.setValidator(validator)
@@ -68,7 +68,7 @@ class TempCalculator(QtWidgets.QWidget):
         self.combo1.setFont(comboFont)
         self.combo1.setMinimumHeight(40)
         self.combo1.addItems(Temp_measurements)
-        #self.combo1.setCurrentText("Square Meters")
+        self.combo1.setCurrentText("Celsius")
         self.combo1.currentTextChanged.connect(self.unit1Changed)
 
         # Swap button
@@ -159,7 +159,7 @@ class TempCalculator(QtWidgets.QWidget):
         mainLayout.addWidget(self.unitLbl)
         mainLayout.addWidget(self.buttonGridWidget)
 
-        #self.convertFirst()
+        self.convert(self.inputbox1, self.inputbox2)
         self.updateUnitLabel()
 
     def unitDisplayName(self, unit_name):

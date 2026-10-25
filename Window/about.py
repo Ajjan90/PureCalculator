@@ -18,7 +18,7 @@ class AboutDialog(QtWidgets.QDialog):
         self.setWindowTitle("About PureCalculator")
         self.setModal(True)
         self.setWindowIcon(QtGui.QIcon("PiMaths1.ico")) # Use the PureCalculator app icon
-        self.setFixedSize(400, 300)
+        self.setFixedSize(400, 400)
 
         # Create the main layout frame
         self.MainLayout = QtWidgets.QVBoxLayout(self)
@@ -51,11 +51,19 @@ class AboutDialog(QtWidgets.QDialog):
         self.gitBtn.setFixedHeight(buttonHeight)
         self.gitBtn.clicked.connect(self.OpenGithubPage) # Calling the OpenGithubPage() function
 
-        # This button will direct users to the Github Repo's license
+        # This button will direct users to the Github Repo's issue page
+        # where users can issue and report for any bugs that they find and also 
+        # provide their feedback
         self.licBtn = QtWidgets.QPushButton(" MIT License")
         self.licBtn.setIcon(qta.icon("msc.law"))
         self.licBtn.setFixedHeight(buttonHeight)
         self.licBtn.clicked.connect(self.OpenLicensePage) # Calling the OpenLicensePage() function
+
+        # This button will direct users to the Github Repo's license
+        self.issueBtn = QtWidgets.QPushButton(" Feedback and Reports")
+        self.issueBtn.setIcon(qta.icon("ph.megaphone-bold"))
+        self.issueBtn.setFixedHeight(buttonHeight)
+        self.issueBtn.clicked.connect(self.OpenIssuePage) # Calling the OpenLicensePage() function
 
         # Apply the widgets into the mainlayout
         self.MainLayout.addWidget(self.LogoLabel)
@@ -63,6 +71,7 @@ class AboutDialog(QtWidgets.QDialog):
         self.MainLayout.addWidget(self.verLbl)
         self.MainLayout.addWidget(self.gitBtn)
         self.MainLayout.addWidget(self.licBtn)
+        self.MainLayout.addWidget(self.issueBtn)
 
     # This function will be called to the Github Button
     # which will direct the users to the Github page
@@ -70,10 +79,15 @@ class AboutDialog(QtWidgets.QDialog):
         url = QtCore.QUrl("https://github.com/Ajjan90/PureCalculator")
         QtGui.QDesktopServices.openUrl(url)
 
-
     # This function will be assigned to the license button
     # which will direct the users to the license page of the project
     def OpenLicensePage(self):
         url = QtCore.QUrl("https://github.com/Ajjan90/PureCalculator/blob/main/LICENSE")
+        QtGui.QDesktopServices.openUrl(url)
+
+    # This function will direct the users to the issue page of the Github Repo
+    # where they can report for any issues or give feedback
+    def OpenIssuePage(self):
+        url = QtCore.QUrl("https://github.com/Ajjan90/PureCalculator/issues")
         QtGui.QDesktopServices.openUrl(url)
 

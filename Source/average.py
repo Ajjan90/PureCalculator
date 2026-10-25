@@ -100,10 +100,10 @@ class AverageCalculator(QtWidgets.QWidget):
         buttonGrid = QtWidgets.QGridLayout()
         buttonFont = QtGui.QFont("Arial", 15)
 
-        buttons = [["CE", "C", "backspace"],
-            ["7", "8", "9"],
-            ["4", "5", "6"],
-            ["1", "2", "3"],
+        buttons = [
+            ["7", "8", "9", "backspace"],
+            ["4", "5", "6", "CE"],
+            ["1", "2", "3", "C"],
             [".", "0", "+", "="]]
 
         #Display the buttons as listed on the buttons list

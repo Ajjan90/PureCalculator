@@ -127,12 +127,11 @@ class ScientificCalculator(QtWidgets.QWidget):
         buttonFont = QtGui.QFont("Arial", 15)
 
         buttons = [
-            ["x³", "π", "e", "(", ")"],
-            ["³√x", "%", "CE", "C", "backspace"],
-            ["n!", "1/x", "x²", "√x", "÷"],
-            ["10^x", "7", "8", "9", "×"],
-            ["Mod", "4", "5", "6", "−"],
-            ["tau", "1", "2", "3", "+"],
+            ["x²", "MOD", "CE", "C", "backspace", "n!"],
+            ["x³", "%", "(", ")", "÷", "π"],
+            ["√x", "7", "8", "9", "×", "e"],
+            ["³√x", "4", "5", "6", "−", "tau"],
+            ["1/x", "1", "2", "3", "+", "10^x"],
             ["log", "±", "0", ".", "="]
         ]
 
@@ -739,10 +738,10 @@ class ScientificCalculator(QtWidgets.QWidget):
         if operation == "10^x":
             result = self.format_number(10 ** current_number)
             number = self.format_number(current_number)
-            self.calTrackerLbl.setText(f"10^({self.format_number(number)})")
+            self.calTrackerLbl.setText(f"10^({number})")
             self.calTrackerLbl.show()
             self.CalTxt.setText(result)
-            CalHisList.insert(0, f"10^({self.format_number(number)}) = {self.format_number(result)}")
+            CalHisList.insert(0, f"10^({number}) = {result}")
             self.UpdateHistoryList()
             return
 
@@ -1101,13 +1100,13 @@ class ScientificCalculator(QtWidgets.QWidget):
     def format_number(self, number):
         if number == int(number):
             return str(int(number))
-    
+
         precision = SetValues.RoundingValue
         rounded = round(number, precision)
-    
+
         if rounded == 0 and number != 0:
             return str(number)
-    
+
         return f"{rounded:.{precision}f}".rstrip("0").rstrip(".")
 
     #To toggle the history panel when the button is clicked
